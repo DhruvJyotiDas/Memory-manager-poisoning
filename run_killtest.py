@@ -43,11 +43,11 @@ def main():
               "the harness only. Install sentence-transformers for a real verdict:\n"
               "    pip install sentence-transformers")
 
-    task = make_task(seed=args.seed, embedder=emb)
+    task = make_task(n_subjects=80, n_relations=8, seed=args.seed, embedder=emb)
 
     # 1) train the learned manager on a benign stream; build a representative store
     learned = LearnedManager(seed=args.seed)
-    for ep in range(3):  # a few benign passes
+    for ep in range(6):  # a few benign passes
         store, _ = run_benign_stream(learned, task, train=True, seed=args.seed + ep)
     learned_store, learned_acc = run_benign_stream(learned, task, train=False, seed=args.seed)
 
