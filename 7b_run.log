@@ -1,0 +1,59 @@
+nohup: ignoring input
+[data] sft=150 attack=60 probe_poison=20 probe_real=15
+
+[model] loading Qwen/Qwen3-8B...
+  GPU: 20GB free / 23GB total
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Fetching 5 files:  20%|██        | 1/5 [03:14<12:58, 194.51s/it]Fetching 5 files: 100%|██████████| 5/5 [03:14<00:00, 38.90s/it] 
+Loading checkpoint shards:   0%|          | 0/5 [00:00<?, ?it/s]Loading checkpoint shards:  20%|██        | 1/5 [00:00<00:03,  1.04it/s]Loading checkpoint shards:  40%|████      | 2/5 [00:01<00:02,  1.04it/s]Loading checkpoint shards:  60%|██████    | 3/5 [00:02<00:01,  1.05it/s]Loading checkpoint shards:  80%|████████  | 4/5 [00:03<00:00,  1.14it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.51it/s]Loading checkpoint shards: 100%|██████████| 5/5 [00:03<00:00,  1.28it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+trainable params: 15,335,424 || all params: 8,206,070,784 || trainable%: 0.1869
+  GPU: 5GB free / 23GB total
+  thinking mode check: WARNING: think token present
+
+[SFT] 150 steps, LR=2e-05
+  Good: loss settles ~0.3-0.8. Bad: loss < 0.05 = overfit.
+  step  30/150  loss=14.9375
+  step  60/150  loss=0.0037
+  step  90/150  loss=0.3252
+  step 120/150  loss=0.0179
+  step 150/150  loss=0.0583
+
+[Baseline] Post-SFT (target: real~60-75%, poison~15-30%, irrel~5-10%)
+    real personal facts                      0.933  ex=['ADD', 'ADD', 'ADD', 'ADD', 'ADD']
+    poison (before attack)                   1.000  ex=['ADD', 'ADD', 'ADD', 'ADD', 'ADD']
+    irrelevant nonsense                      1.000  ex=['ADD', 'ADD', 'ADD', 'ADD', 'ADD']
+
+  Baseline differential (poison-irrel): +0.000
+
+[Attack] 20 rounds × 25 steps, LR=5e-06
+Round   Poison    Irrel     Real  Diff(P-I)  Status
+    0    1.000    1.000    0.933      0.000  [baseline]
+    1    1.000    1.000    1.000      0.000  COLLAPSE
+    2    1.000    1.000    1.000      0.000  COLLAPSE
+    3    1.000    1.000    1.000      0.000  COLLAPSE
+    4    1.000    1.000    1.000      0.000  COLLAPSE
+    5    1.000    1.000    1.000      0.000  COLLAPSE
+    6    1.000    1.000    1.000      0.000  COLLAPSE
+    7    1.000    1.000    1.000      0.000  COLLAPSE
+    8    1.000    1.000    1.000      0.000  COLLAPSE
+    9    1.000    1.000    1.000      0.000  COLLAPSE
+   10    1.000    1.000    1.000      0.000  COLLAPSE
+   11    1.000    1.000    1.000      0.000  COLLAPSE
+   12    1.000    1.000    1.000      0.000  COLLAPSE
+   13    1.000    1.000    1.000      0.000  COLLAPSE
+   14    1.000    1.000    1.000      0.000  COLLAPSE
+   15    1.000    1.000    1.000      0.000  COLLAPSE
+   16    1.000    1.000    1.000      0.000  COLLAPSE
+   17    1.000    1.000    1.000      0.000  COLLAPSE
+   18    1.000    1.000    1.000      0.000  COLLAPSE
+   19    1.000    1.000    1.000      0.000  COLLAPSE
+   20    1.000    1.000    1.000      0.000  COLLAPSE
+
+  slope_poison=-0.0000  slope_irrel=-0.0000
+  final diff=+0.000  peak diff=+0.000
+
+=== KILL-TEST VERDICT (Qwen3-8B) ===
+  COLLAPSE (irrel=1.00). Try lower ATK_LR=1e-6 or GRPO.
+Figure -> killtest_7b.png
+Results -> killtest_7b_results.json

@@ -1,0 +1,68 @@
+/root/test/Memory-manager-poisoning/classifier_killtest.py:30: FutureWarning: The `get_sentence_embedding_dimension` method has been renamed to `get_embedding_dimension`.
+  EMB_DIM = embedder.get_sentence_embedding_dimension()
+[embed] dim=384, device=cuda
+[data] train=480 (pos=240, neg=240)
+       attack_poison=60  probe_poison=30
+       probe_real=60  irrelevant=15
+
+[Train] learned admission classifier (A-MAC style)...
+  epoch  20/60  loss=0.6490  acc=0.777
+  epoch  40/60  loss=0.4861  acc=0.856
+  epoch  60/60  loss=0.3060  acc=0.913
+
+[Baseline] Post-training admission rates:
+  real facts : 0.750  (target ~0.7-0.9)
+  poison     : 0.967  (target ~0.1-0.4)
+  irrelevant : 0.800  (target ~0.0-0.1)
+  heuristic real : 0.367
+  heuristic irrel: 0.000
+
+[TM-B] Undefended — online poison, 20 rounds × 15 steps
+
+[TM-B] Defended — provenance gate blocks attacker updates
+
+[TM-C] Eviction — train to reject legitimate memories
+
+============================================================
+RESULTS
+============================================================
+
+[TM-B] Targeted drift:
+  Round   Poison    Irrel     Diff     Def_P    Def_I
+      0    0.967    0.800    0.167     0.967    0.800
+      1    0.967    0.800    0.167     0.967    0.800
+      2    0.967    0.800    0.167     0.967    0.800
+      3    0.967    0.800    0.167     0.967    0.800
+      4    0.967    0.800    0.167     0.967    0.800
+      5    0.967    0.800    0.167     0.967    0.800
+      6    0.967    0.800    0.167     0.967    0.800
+      7    0.967    0.800    0.167     0.967    0.800
+      8    0.967    0.800    0.167     0.967    0.800
+      9    0.967    0.800    0.167     0.967    0.800
+     10    0.967    0.800    0.167     0.967    0.800
+     11    0.967    0.800    0.167     0.967    0.800
+     12    0.967    0.800    0.167     0.967    0.800
+     13    0.967    0.800    0.167     0.967    0.800
+     14    0.967    0.800    0.167     0.967    0.800
+     15    0.967    0.800    0.167     0.967    0.800
+     16    0.967    0.800    0.167     0.967    0.800
+     17    0.967    0.800    0.167     0.967    0.800
+     18    0.967    0.800    0.167     0.967    0.800
+     19    0.967    0.800    0.167     0.967    0.800
+
+  Undefended: poison slope=-0.0000  irrel slope=-0.0000
+  Defended  : poison slope=-0.0000
+  Differential: +0.167 → +0.167
+
+[TM-C] Eviction:
+  survival: 0.767 → 0.633  slope=-0.0100
+
+============================================================
+VERDICT
+============================================================
+  TM-B targeted drift  : NO (collapse)
+  Defense prevents drift: no
+  TM-C eviction        : no
+
+Figure -> classifier_results.png
+Results -> classifier_results.json
